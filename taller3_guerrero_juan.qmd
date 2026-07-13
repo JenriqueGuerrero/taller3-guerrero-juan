@@ -1,27 +1,110 @@
 ---
 title: "Herpetofauna del Caribe Colombiano — Análisis Exploratorio"
+subtitle: "Taller Semana 3 · Curso 20953"
 author: "Juan Enrique Guerrero Guerrero"
-format: html
-editor: visual
+date: "2027-05-18"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    theme: cosmo
+lang: es
 ---
 
-## Quarto
+## Introducción
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Este documento explora un conjunto de **60 registros de herpetofauna** —reptiles y anfibios— recolectados durante el año *2023* en el Caribe colombiano, principalmente en los departamentos de Atlántico, Magdalena y Córdoba. Los datos provienen del archivo `herpetofauna_caribe_listo.csv` (Curso 20953) y reúnen observaciones de **31 especies** distribuidas en distintos ecosistemas de la región, desde bosques secos tropicales hasta manglares, ciénagas y zonas urbanas. Cada fila corresponde a un avistamiento o captura, con información taxonómica, geográfica y morfométrica del individuo registrado.
 
-## Running Code
+Para este análisis exploratorio se examinarán, entre otras, las siguientes variables:
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+- `ecosistema`: tipo de hábitat donde se hizo el registro.
+- `clase`: grupo taxonómico (*Reptilia* o *Amphibia*).
+- `longitud_svl_mm`: longitud hocico-cloaca (SVL) en milímetros, una medida morfométrica estándar.
+- `peso_g`: peso corporal del individuo en gramos.
+- `estado_uicn`: categoría de amenaza según la UICN (LC, NT, VU, EN, CR).
+
+El objetivo es describir la composición de la muestra y visualizar dos patrones básicos: **cómo se reparten los registros entre ecosistemas** y **cómo difiere el tamaño corporal entre reptiles y anfibios**.
+
+## Carga y exploración del dataset
 
 ```{r}
-1 + 1
+#| label: cargar-datos
+herp <- read.csv("datos/herpetofauna_caribe_listo.csv")
+
+# Dimensiones: número de filas y columnas
+dim(herp)
+
+# Primeros registros
+head(herp)
+
+# Estructura de las variables
+str(herp)
 ```
 
-You can add options to executable code like this
+El dataset tiene **60 filas y 21 columnas**. Al inspeccionar la estructura con `str()` se observa una mezcla de variables de texto (`especie`, `nombre_comun`, `clase`, `ecosistema`, `estado_uicn`) y variables numéricas (`latitud`, `longitud`, `num_individuos`, `longitud_svl_mm`, `peso_g`). Las columnas `sexo` y `observaciones` contienen numerosos valores faltantes (`NA`), lo cual es habitual en registros de campo donde no siempre es posible determinar el sexo o anotar observaciones. La muestra está dominada por reptiles (44 registros) frente a anfibios (16), y la mayoría de las especies se clasifican como *preocupación menor* (`LC`) en la UICN.
+
+## Gráfico 1: Registros por ecosistema
 
 ```{r}
-#| echo: false
-2 * 2
+#| label: grafico-ecosistema
+#| fig-cap: "Figura 1. Número de registros de herpetofauna por tipo de ecosistema en el Caribe colombiano (n = 60). Fuente: herpetofauna_caribe_listo.csv, Curso 20953, registros de 2023."
+#| fig-width: 8
+#| fig-height: 5
+
+# Conteo de registros por ecosistema, ordenado de mayor a menor
+conteo_eco <- sort(table(herp$ecosistema), decreasing = FALSE)
+
+# Margen izquierdo amplio para que quepan los nombres de los ecosistemas
+par(mar = c(5, 10, 4, 2))
+
+barplot(conteo_eco,
+        horiz  = TRUE,
+        las    = 1,
+        col    = "seagreen",
+        border = "white",
+        xlab   = "Número de registros",
+        main   = "Registros de herpetofauna por ecosistema")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+El **bosque seco tropical** concentra la mayor cantidad de registros (20, un tercio de la muestra), seguido por el **humedal** (13). Si se agrupan los ambientes acuáticos y costeros (humedal, ciénaga, manglar y área costera) suman 27 registros, lo que refleja la fuerte asociación de la herpetofauna del Caribe con cuerpos de agua. Los ecosistemas menos representados —*bosque ripario* (1) y *área costera* (3)— probablemente reflejan un menor esfuerzo de muestreo más que una baja diversidad real, algo que conviene tener en cuenta al interpretar el gráfico.
+
+## Gráfico 2: Longitud corporal (SVL) por clase
+
+```{r}
+#| label: grafico-morfometria
+#| fig-cap: "Figura 2. Distribución de la longitud hocico-cloaca (SVL, en mm) según la clase taxonómica (Reptilia vs. Amphibia). Fuente: herpetofauna_caribe_listo.csv, Curso 20953, registros de 2023."
+#| fig-width: 7
+#| fig-height: 5
+
+boxplot(longitud_svl_mm ~ clase,
+        data = herp,
+        col  = c("#56B4E9", "#E69F00"),
+        xlab = "Clase taxonómica",
+        ylab = "Longitud hocico-cloaca (mm)",
+        main = "Longitud corporal (SVL) según clase")
+```
+
+Los **reptiles** presentan una longitud corporal muy superior y mucho más variable que los **anfibios**: su SVL mediano ronda los cientos de milímetros y alcanza valores extremos por encima de los 1800 mm, correspondientes a *crocodílidos* como la babilla (*Caiman crocodilus*), que aparecen como valores atípicos en el extremo superior. Los anfibios, en cambio, se concentran en un rango estrecho (aproximadamente 25–112 mm), coherente con el tamaño típico de ranas y sapos. Este contraste ilustra la enorme disparidad de tallas dentro de la herpetofauna y explica por qué, al analizar tamaño corporal, conviene separar por clase en lugar de tratar todos los registros en conjunto.
+
+## Consideraciones del análisis
+
+::: callout-note
+El conteo por ecosistema se calculó con `table()` sobre la variable `ecosistema` tal como viene codificada en el archivo original. Las categorías no se agruparon ni se homogeneizaron, de modo que "Humedal", "Ciénaga" y "Manglar" se contabilizan por separado aunque ecológicamente estén relacionadas.
+:::
+
+::: callout-warning
+La muestra no está balanceada: hay muchos más reptiles (44) que anfibios (16) y el esfuerzo de muestreo difiere entre ecosistemas (el bosque ripario tiene un solo registro). Por lo tanto, las comparaciones deben leerse como **descriptivas** de esta muestra concreta y no como estimaciones de la abundancia o diversidad reales en el Caribe colombiano.
+:::
+
+::: callout-tip
+Para análisis futuros sería útil incorporar el esfuerzo de muestreo (número de salidas o de trampas por ecosistema) para calcular tasas comparables, aplicar una transformación logarítmica al SVL y al peso para manejar los valores extremos de los crocodílidos, e incluir más registros de anfibios para equilibrar la muestra.
+:::
+
+## Reflexiones
+
+Un documento Quarto ofrece una ventaja clara frente a un script `.R` simple para comunicar resultados biológicos: integra en un mismo archivo el texto narrativo, el código y sus salidas (tablas y gráficos), de modo que el lector ve tanto la interpretación como el código exacto que la generó. Esto convierte al informe en un producto reproducible y autoexplicativo; un script `.R`, en cambio, produce resultados que hay que ejecutar aparte y documentar por separado, con el riesgo de que el texto y las figuras queden desincronizados respecto al código.
+
+Si se actualizaran los datos añadiendo registros de 2024, reproducir el análisis sería sencillo precisamente por estar en un repositorio reproducible. Bastaría con reemplazar —o ampliar— el archivo `herpetofauna_caribe_listo.csv` dentro de la carpeta `datos/`, manteniendo los mismos nombres de columnas, y volver a pulsar **Render**. Como el documento carga los datos desde una ruta relativa y todos los cálculos y gráficos se generan a partir de ese archivo, el HTML se regeneraría automáticamente con las cifras y figuras actualizadas, sin tener que modificar el código.
+
+Que un repositorio sea **público** en GitHub significa que cualquier persona puede ver, descargar y clonar su contenido código, datos y documento renderizado sin necesidad de permisos especiales. Para la ciencia abierta esto es fundamental: permite que otros verifiquen los resultados, reutilicen los datos y el código, detecten errores y construyan sobre el trabajo previo. En este caso, hace posible que el docente y cualquier interesado revise no solo las conclusiones, sino el proceso completo que llevó a ellas, fortaleciendo la transparencia y la confianza en el análisis.
