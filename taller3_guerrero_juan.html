@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
@@ -72,20 +72,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="taller3_guerrero_juan_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="taller3_guerrero_juan_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="taller3_guerrero_juan_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="taller3_guerrero_juan_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="taller3_guerrero_juan_files/libs/bootstrap/bootstrap-67270d1595a62d14f123c043d4fb2f18.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#carga-y-exploración-del-dataset" id="toc-carga-y-exploración-del-dataset" class="nav-link" data-scroll-target="#carga-y-exploración-del-dataset">Carga y exploración del dataset</a></li>
+  <li><a href="#gráfico-1-registros-por-ecosistema" id="toc-gráfico-1-registros-por-ecosistema" class="nav-link" data-scroll-target="#gráfico-1-registros-por-ecosistema">Gráfico 1: Registros por ecosistema</a></li>
+  <li><a href="#gráfico-2-longitud-corporal-svl-por-clase" id="toc-gráfico-2-longitud-corporal-svl-por-clase" class="nav-link" data-scroll-target="#gráfico-2-longitud-corporal-svl-por-clase">Gráfico 2: Longitud corporal (SVL) por clase</a></li>
+  <li><a href="#consideraciones-del-análisis" id="toc-consideraciones-del-análisis" class="nav-link" data-scroll-target="#consideraciones-del-análisis">Consideraciones del análisis</a></li>
+  <li><a href="#reflexiones" id="toc-reflexiones" class="nav-link" data-scroll-target="#reflexiones">Reflexiones</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Herpetofauna del Caribe Colombiano — Análisis Exploratorio</h1>
+<p class="subtitle lead">Taller Semana 3 · Curso 20953</p>
 </div>
 
 
@@ -93,12 +107,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
              <p>Juan Enrique Guerrero Guerrero </p>
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">18 de mayo de 2027</p>
+    </div>
+  </div>
   
     
   </div>
@@ -108,26 +128,191 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="quarto" class="level2">
-<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>Este documento explora un conjunto de <strong>60 registros de herpetofauna</strong> —reptiles y anfibios— recolectados durante el año <em>2023</em> en el Caribe colombiano, principalmente en los departamentos de Atlántico, Magdalena y Córdoba. Los datos provienen del archivo <code>herpetofauna_caribe_listo.csv</code> (Curso 20953) y reúnen observaciones de <strong>31 especies</strong> distribuidas en distintos ecosistemas de la región, desde bosques secos tropicales hasta manglares, ciénagas y zonas urbanas. Cada fila corresponde a un avistamiento o captura, con información taxonómica, geográfica y morfométrica del individuo registrado.</p>
+<p>Para este análisis exploratorio se examinarán, entre otras, las siguientes variables:</p>
+<ul>
+<li><code>ecosistema</code>: tipo de hábitat donde se hizo el registro.</li>
+<li><code>clase</code>: grupo taxonómico (<em>Reptilia</em> o <em>Amphibia</em>).</li>
+<li><code>longitud_svl_mm</code>: longitud hocico-cloaca (SVL) en milímetros, una medida morfométrica estándar.</li>
+<li><code>peso_g</code>: peso corporal del individuo en gramos.</li>
+<li><code>estado_uicn</code>: categoría de amenaza según la UICN (LC, NT, VU, EN, CR).</li>
+</ul>
+<p>El objetivo es describir la composición de la muestra y visualizar dos patrones básicos: <strong>cómo se reparten los registros entre ecosistemas</strong> y <strong>cómo difiere el tamaño corporal entre reptiles y anfibios</strong>.</p>
 </section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<section id="carga-y-exploración-del-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="carga-y-exploración-del-dataset">Carga y exploración del dataset</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>herp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"datos/herpetofauna_caribe_listo.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensiones: número de filas y columnas</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(herp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>[1] 60 21</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primeros registros</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(herp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id_registro               especie nombre_comun    clase      orden
+1           1         Iguana iguana Iguana verde Reptilia   Squamata
+2           2         Iguana iguana Iguana verde Reptilia   Squamata
+3           3     Caiman crocodilus      Babilla Reptilia Crocodylia
+4           4       Boa constrictor          Boa Reptilia   Squamata
+5           5       Boa constrictor          Boa Reptilia   Squamata
+6           6 Basiliscus basiliscus    Basilisco Reptilia   Squamata
+         familia departamento    municipio         localidad  ecosistema
+1      Iguanidae    Atlántico Barranquilla    Isla Salamanca     Manglar
+2      Iguanidae    Atlántico Barranquilla    Isla Salamanca     Manglar
+3  Alligatoridae    Atlántico      Malambo Ciénaga del Uvero     Ciénaga
+4         Boidae    Magdalena      Ciénaga    Ciénaga Grande     Manglar
+5         Boidae    Magdalena Pueblo Viejo          Tasajera Bosque seco
+6 Corytophanidae    Atlántico      Baranoa             Pital Bosque seco
+  latitud longitud      fecha num_individuos longitud_svl_mm peso_g sexo
+1 10.9843 -74.8312 2023-03-12              3             312    245    M
+2 10.9843 -74.8312 2023-03-12              5             275    198    F
+3 10.8521 -74.7834 2023-04-05              1            1450   3200    M
+4 10.9012 -74.2341 2023-02-18              1            1820   4100    F
+5 10.9234 -74.2567 2023-05-22              1            1240   2350    M
+6 10.7923 -74.9234 2023-03-30              2             187     78    M
+  estado_uicn endemica_colombia       metodo_captura
+1          LC                No       Captura manual
+2          LC                No       Captura manual
+3          LC                No         Avistamiento
+4          LC                No       Captura manual
+5          LC                No Trampa herpetológica
+6          LC                No       Captura manual
+                   observaciones
+1            Adulto reproductivo
+2 Hembras con signos de gravidez
+3     Individuo adulto en orilla
+4     Hembra adulta con cicatriz
+5                           &lt;NA&gt;
+6 Machos con cresta desarrollada</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estructura de las variables</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(herp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   60 obs. of  21 variables:
+ $ id_registro      : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ especie          : chr  "Iguana iguana" "Iguana iguana" "Caiman crocodilus" "Boa constrictor" ...
+ $ nombre_comun     : chr  "Iguana verde" "Iguana verde" "Babilla" "Boa" ...
+ $ clase            : chr  "Reptilia" "Reptilia" "Reptilia" "Reptilia" ...
+ $ orden            : chr  "Squamata" "Squamata" "Crocodylia" "Squamata" ...
+ $ familia          : chr  "Iguanidae" "Iguanidae" "Alligatoridae" "Boidae" ...
+ $ departamento     : chr  "Atlántico" "Atlántico" "Atlántico" "Magdalena" ...
+ $ municipio        : chr  "Barranquilla" "Barranquilla" "Malambo" "Ciénaga" ...
+ $ localidad        : chr  "Isla Salamanca" "Isla Salamanca" "Ciénaga del Uvero" "Ciénaga Grande" ...
+ $ ecosistema       : chr  "Manglar" "Manglar" "Ciénaga" "Manglar" ...
+ $ latitud          : num  11 11 10.9 10.9 10.9 ...
+ $ longitud         : num  -74.8 -74.8 -74.8 -74.2 -74.3 ...
+ $ fecha            : chr  "2023-03-12" "2023-03-12" "2023-04-05" "2023-02-18" ...
+ $ num_individuos   : int  3 5 1 1 1 2 4 6 9 2 ...
+ $ longitud_svl_mm  : int  312 275 1450 1820 1240 187 134 72 58 645 ...
+ $ peso_g           : int  245 198 3200 4100 2350 78 42 8 5 1450 ...
+ $ sexo             : chr  "M" "F" "M" "F" ...
+ $ estado_uicn      : chr  "LC" "LC" "LC" "LC" ...
+ $ endemica_colombia: chr  "No" "No" "No" "No" ...
+ $ metodo_captura   : chr  "Captura manual" "Captura manual" "Avistamiento" "Captura manual" ...
+ $ observaciones    : chr  "Adulto reproductivo" "Hembras con signos de gravidez" "Individuo adulto en orilla" "Hembra adulta con cicatriz" ...</code></pre>
 </div>
 </div>
-<p>You can add options to executable code like this</p>
+<p>El dataset tiene <strong>60 filas y 21 columnas</strong>. Al inspeccionar la estructura con <code>str()</code> se observa una mezcla de variables de texto (<code>especie</code>, <code>nombre_comun</code>, <code>clase</code>, <code>ecosistema</code>, <code>estado_uicn</code>) y variables numéricas (<code>latitud</code>, <code>longitud</code>, <code>num_individuos</code>, <code>longitud_svl_mm</code>, <code>peso_g</code>). Las columnas <code>sexo</code> y <code>observaciones</code> contienen numerosos valores faltantes (<code>NA</code>), lo cual es habitual en registros de campo donde no siempre es posible determinar el sexo o anotar observaciones. La muestra está dominada por reptiles (44 registros) frente a anfibios (16), y la mayoría de las especies se clasifican como <em>preocupación menor</em> (<code>LC</code>) en la UICN.</p>
+</section>
+<section id="gráfico-1-registros-por-ecosistema" class="level2">
+<h2 class="anchored" data-anchor-id="gráfico-1-registros-por-ecosistema">Gráfico 1: Registros por ecosistema</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conteo de registros por ecosistema, ordenado de mayor a menor</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>conteo_eco <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">table</span>(herp<span class="sc">$</span>ecosistema), <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Margen izquierdo amplio para que quepan los nombres de los ecosistemas</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">2</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(conteo_eco,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">horiz  =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">las    =</span> <span class="dv">1</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">col    =</span> <span class="st">"seagreen"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab   =</span> <span class="st">"Número de registros"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">main   =</span> <span class="st">"Registros de herpetofauna por ecosistema"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="taller3_guerrero_juan_files/figure-html/grafico-ecosistema-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Figura 1. Número de registros de herpetofauna por tipo de ecosistema en el Caribe colombiano (n = 60). Fuente: herpetofauna_caribe_listo.csv, Curso 20953, registros de 2023.</figcaption>
+</figure>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+</div>
+<p>El <strong>bosque seco tropical</strong> concentra la mayor cantidad de registros (20, un tercio de la muestra), seguido por el <strong>humedal</strong> (13). Si se agrupan los ambientes acuáticos y costeros (humedal, ciénaga, manglar y área costera) suman 27 registros, lo que refleja la fuerte asociación de la herpetofauna del Caribe con cuerpos de agua. Los ecosistemas menos representados —<em>bosque ripario</em> (1) y <em>área costera</em> (3)— probablemente reflejan un menor esfuerzo de muestreo más que una baja diversidad real, algo que conviene tener en cuenta al interpretar el gráfico.</p>
+</section>
+<section id="gráfico-2-longitud-corporal-svl-por-clase" class="level2">
+<h2 class="anchored" data-anchor-id="gráfico-2-longitud-corporal-svl-por-clase">Gráfico 2: Longitud corporal (SVL) por clase</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(longitud_svl_mm <span class="sc">~</span> clase,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> herp,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col  =</span> <span class="fu">c</span>(<span class="st">"#56B4E9"</span>, <span class="st">"#E69F00"</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Clase taxonómica"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Longitud hocico-cloaca (mm)"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Longitud corporal (SVL) según clase"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="taller3_guerrero_juan_files/figure-html/grafico-morfometria-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figura 2. Distribución de la longitud hocico-cloaca (SVL, en mm) según la clase taxonómica (Reptilia vs.&nbsp;Amphibia). Fuente: herpetofauna_caribe_listo.csv, Curso 20953, registros de 2023.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Los <strong>reptiles</strong> presentan una longitud corporal muy superior y mucho más variable que los <strong>anfibios</strong>: su SVL mediano ronda los cientos de milímetros y alcanza valores extremos por encima de los 1800 mm, correspondientes a <em>crocodílidos</em> como la babilla (<em>Caiman crocodilus</em>), que aparecen como valores atípicos en el extremo superior. Los anfibios, en cambio, se concentran en un rango estrecho (aproximadamente 25–112 mm), coherente con el tamaño típico de ranas y sapos. Este contraste ilustra la enorme disparidad de tallas dentro de la herpetofauna y explica por qué, al analizar tamaño corporal, conviene separar por clase en lugar de tratar todos los registros en conjunto.</p>
+</section>
+<section id="consideraciones-del-análisis" class="level2">
+<h2 class="anchored" data-anchor-id="consideraciones-del-análisis">Consideraciones del análisis</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El conteo por ecosistema se calculó con <code>table()</code> sobre la variable <code>ecosistema</code> tal como viene codificada en el archivo original. Las categorías no se agruparon ni se homogeneizaron, de modo que “Humedal”, “Ciénaga” y “Manglar” se contabilizan por separado aunque ecológicamente estén relacionadas.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La muestra no está balanceada: hay muchos más reptiles (44) que anfibios (16) y el esfuerzo de muestreo difiere entre ecosistemas (el bosque ripario tiene un solo registro). Por lo tanto, las comparaciones deben leerse como <strong>descriptivas</strong> de esta muestra concreta y no como estimaciones de la abundancia o diversidad reales en el Caribe colombiano.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para análisis futuros sería útil incorporar el esfuerzo de muestreo (número de salidas o de trampas por ecosistema) para calcular tasas comparables, aplicar una transformación logarítmica al SVL y al peso para manejar los valores extremos de los crocodílidos, e incluir más registros de anfibios para equilibrar la muestra.</p>
+</div>
+</div>
+</section>
+<section id="reflexiones" class="level2">
+<h2 class="anchored" data-anchor-id="reflexiones">Reflexiones</h2>
+<p>Un documento Quarto ofrece una ventaja clara frente a un script <code>.R</code> simple para comunicar resultados biológicos: integra en un mismo archivo el texto narrativo, el código y sus salidas (tablas y gráficos), de modo que el lector ve tanto la interpretación como el código exacto que la generó. Esto convierte al informe en un producto reproducible y autoexplicativo; un script <code>.R</code>, en cambio, produce resultados que hay que ejecutar aparte y documentar por separado, con el riesgo de que el texto y las figuras queden desincronizados respecto al código.</p>
+<p>Si se actualizaran los datos añadiendo registros de 2024, reproducir el análisis sería sencillo precisamente por estar en un repositorio reproducible. Bastaría con reemplazar —o ampliar— el archivo <code>herpetofauna_caribe_listo.csv</code> dentro de la carpeta <code>datos/</code>, manteniendo los mismos nombres de columnas, y volver a pulsar <strong>Render</strong>. Como el documento carga los datos desde una ruta relativa y todos los cálculos y gráficos se generan a partir de ese archivo, el HTML se regeneraría automáticamente con las cifras y figuras actualizadas, sin tener que modificar el código.</p>
+<p>Que un repositorio sea <strong>público</strong> en GitHub significa que cualquier persona puede ver, descargar y clonar su contenido código, datos y documento renderizado sin necesidad de permisos especiales. Para la ciencia abierta esto es fundamental: permite que otros verifiquen los resultados, reutilicen los datos y el código, detecten errores y construyan sobre el trabajo previo. En este caso, hace posible que el docente y cualquier interesado revise no solo las conclusiones, sino el proceso completo que llevó a ellas, fortaleciendo la transparencia y la confianza en el análisis.</p>
 </section>
 
 </main>
@@ -157,12 +342,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiado");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiado");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
